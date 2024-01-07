@@ -1,18 +1,24 @@
 #!/usr/bin/python3
-"""Takes in Github repo nd owner name to list
-10 commits (from the most recent to oldest)"""
+"""Lists 10 commits (from most recent to oldest) of
+a GitHub repository"""
+
+import requests
+import sys
 
 
 if __name__ == "__main__":
-    import requests
-    import sys
+    repo_name = sys.argv[1]
+    owner_name = sys.argv[2]
+    url = f'https://api.github.com/repos/{owner_name}/{repo_name}/commits'
 
-    r = requests.get('https://api.github.com/repos/{}/{}/commits'
-                     .format(sys.argv[2], sys.argv[1]))
-    if r.status_code >= 400:
-        print('None')
-    else:
-        for com in r.json()[:10]:
-            print("{}: {}".format(com.get('sha'),
-                                  com.get('commit').get('author').get('name')))
+    try:
+        response = requests.get(url)
+        commits = response.json()[:10]
 
+        for commit in commits:
+            sha = commit['sha']
+            author_name = commit['commit']['author']['name']
+            print(f'{sha}: {author_name}')
+
+    except ValueError:
+        print("Error: Unable to fetch data from GitHub API")
