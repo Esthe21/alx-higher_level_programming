@@ -1,14 +1,25 @@
 #!/usr/bin/python3
-"""Fetches https://intranet.hbtn.io/status"""
+"""Fetches https://alx-intranet.hbtn.io/status"""
+
+import urllib.request
+
+
+def fetch_status(url):
+    with urllib.request.urlopen(url) as response:
+        content = response.read()
+        utf8_content = content.decode('utf-8')
+    return content, utf8_content
+
+
+def display_response_info(content, utf8_content):
+    print("Body response:")
+    print(f"\t- type: {type(content)}")
+    print(f"\t- content: {content}")
+    print(f"\t- utf8 content: {utf8_content}")
 
 
 if __name__ == "__main__":
-    import urllib.request
+    url = "https://alx-intranet.hbtn.io/status"
 
-    with urllib.request.urlopen('https://intranet.hbtn.io/status') as response:
-        html = response.read()
-        print('Body response:')
-        print('\t- type: {}'.format(type(html)))
-        print('\t- content: {}'.format(html))
-        print('\t- utf8 content: {}'.format(html.decode("utf-8", "replace")))
-
+    content, utf8_content = fetch_status(url)
+    display_response_info(content, utf8_content)

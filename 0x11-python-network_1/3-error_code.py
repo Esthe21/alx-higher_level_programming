@@ -1,14 +1,17 @@
 #!/usr/bin/python3
-"""Takes in a URL, sends a request to the URL and
-displays the body of the response"""
+"""Displays the body of the response and handles HTTP errors"""
+
+import urllib.request
+import urllib.error
+import sys
+
 
 if __name__ == "__main__":
-    import urllib.request
-    from urllib.error import HTTPError
-    import sys
+    url = sys.argv[1]
 
     try:
-        with urllib.request.urlopen(sys.argv[1]) as response:
-            print(response.read().decode("utf-8", "replace"))
-    except HTTPError as e:
-        print("Error code: {}".format(e.code))
+        with urllib.request.urlopen(url) as response:
+            body = response.read().decode('utf-8')
+            print(body)
+    except urllib.error.HTTPError as e:
+        print(f"Error code: {e.code}")

@@ -1,13 +1,13 @@
 #!/usr/bin/python3
-"""Fetches https://intranet.hbtn.io/status"""
+"""Fetches https://alx-intranet.hbtn.io/status using the requests library"""
+
+import requests
 
 
 if __name__ == "__main__":
-    import requests
+    url = "https://alx-intranet.hbtn.io/status"
+    response = requests.get(url)
 
-    r = requests.get('https://intranet.hbtn.io/status')
-
-    print('Body response:')
-    print('\t- type: {}'.format(type(r.text)))
-    print('\t- content: {}'.format(r.text))
-
+    print("Body response:")
+    print(f"\t- type: {type(response.text)}")
+    print(f"\t- content: {response.text}")
